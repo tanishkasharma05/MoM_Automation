@@ -1,0 +1,16 @@
+{
+  "name": "Digital Meeting Controller",
+  "short_name": "DMC",
+  "description": "The enterprise command center for meetings — live control, AI insights, and action tracking in one place.",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080B14",
+  "theme_color": "#4F46E5"
+}

@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Digital Meeting Controller — enterprise design tokens
+   Palette: --background/--card deep indigo-slate command-center backdrop;
+   --primary electric indigo (control/action); --ring & chart-2 pulse cyan
+   (live/status signal, echoed in the brand mark); chart-3/4/5 amber+emerald+rose
+   for health-score and KPI states. */
+@layer base {
+  :root {
+    --background: 226 47% 6%;
+    --foreground: 210 40% 98%;
+    --card: 227 40% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 227 40% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 243 75% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 227 33% 14%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 227 33% 13%;
+    --muted-foreground: 217 15% 60%;
+    --accent: 189 74% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 350 84% 63%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 227 30% 16%;
+    --input: 227 30% 16%;
+    --ring: 189 74% 46%;
+    --chart-1: 243 75% 63%;
+    --chart-2: 189 74% 50%;
+    --chart-3: 45 93% 58%;
+    --chart-4: 158 64% 46%;
+    --chart-5: 350 84% 63%;
+    --radius: 0.875rem;
+    --font-heading: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { @apply antialiased; }
+  body {
+    @apply bg-gray-950 text-foreground font-body;
+    background-image:
+      radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.10), transparent 42%),
+      radial-gradient(circle at 100% 0%, rgba(14, 165, 183, 0.07), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(79, 70, 229, 0.05), transparent 50%);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 { @apply font-heading tracking-tight; }
+}
+
+/* Reusable enterprise surface treatments */
+@layer components {
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-widest text-gray-500;
+  }
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-xl border border-white/[0.06];
+  }
+  .skeleton {
+    @apply relative overflow-hidden bg-white/[0.04] rounded-xl;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+    animation: shimmer 1.6s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Slim, unobtrusive scrollbars matching the dark theme */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
+
+/* Consistent, sharp focus ring across native form elements */
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible {
+  outline: none;
+}

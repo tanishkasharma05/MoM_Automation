@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Upload, Mic, Bot, FileText, UserPlus } from 'lucide-react';
+import { Upload, Mic, Bot, FileText, UserPlus, StickyNote } from 'lucide-react';
 
 const actions = [
   { title: 'Upload Audio', description: 'Upload meeting audio files', icon: Upload, color: 'from-blue-500 to-blue-700', href: '/upload' },
   { title: 'Live Recording', description: 'Start recording a meeting', icon: Mic, color: 'from-green-500 to-green-700', href: '/recording' },
+  { title: 'AI Notes', description: 'Capture voice notes & highlights', icon: StickyNote, color: 'from-indigo-500 to-indigo-700', href: '/notes' },
   { title: 'Generate MoM', description: 'Generate AI meeting minutes', icon: Bot, color: 'from-purple-500 to-purple-700', href: '/processing' },
   { title: 'All Meetings', description: 'View meeting history', icon: FileText, color: 'from-red-500 to-red-700', href: '/meetings' },
   { title: 'Invite Team', description: 'Add new team members', icon: UserPlus, color: 'from-orange-500 to-orange-700', href: '/team' },

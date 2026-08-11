@@ -209,3 +209,58 @@ Example: "action_items": [{"text": "Change the oil", "assignee": "Ashok Bajaj", 
 export async function generateMoMFromText(transcript, meetingTitle, department, extra) {
   return generateMoM(transcript, meetingTitle, department, extra);
 }
+
+// --- AI Notes ---
+// Lighter-weight than generateMoM: no meeting structure, just pulls a title,
+// a short summary, and the important points (decisions, action items,
+// questions, ideas) out of a raw voice note transcript.
+
+function normalizeHighlights(val) {
+  const arr = Array.isArray(val) ? val : val ? [val] : [];
+  const allowed = new Set(['important', 'action', 'decision', 'question', 'idea']);
+  return arr.map((h) => {
+    if (typeof h === 'string') return { type: 'important', text: h };
+    const type = allowed.has(h?.type) ? h.type : 'important';
+    return { type, text: h?.text || h?.point || JSON.stringify(h) };
+  }).filter((h) => h.text);
+}
+
+export async function generateNoteHighlights(transcript, existingTitle = '') {
+  const prompt = `You are an assistant that turns a raw voice-note transcript into a quick, skimmable note.
+
+Transcript:
+${transcript}
+
+Return clean JSON with these keys:
+- "title": a short (max 8 words) descriptive title for this note${existingTitle ? ` (the user already suggested: "${existingTitle}" — reuse it unless the transcript clearly suggests something better)` : ''}
+- "summary": 1-3 sentence plain-language summary of what was said
+- "tags": array of 1-5 short topic tags (single words or short phrases)
+- "highlights": array of objects, each { "type", "text" }, where "type" is one of "important", "action", "decision", "question", "idea" and "text" is a concise (under ~20 words) point pulled from the transcript. Only include what's actually said — do not invent content. Return an empty array if nothing stands out.
+
+Prioritize genuinely important or actionable points over restating everything that was said.`;
+
+  const response = await fetch(`${OPENROUTER_BASE}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': window.location.origin,
+    },
+    body: JSON.stringify({
+      model: 'openai/gpt-4o-mini',
+      messages: [{ role: 'user', content: prompt }],
+      response_format: { type: 'json_object' },
+    }),
+  });
+
+  if (!response.ok) throw new Error('Note analysis failed');
+  const data = await response.json();
+  const parsed = JSON.parse(data.choices[0].message.content);
+
+  return {
+    title: (typeof parsed.title === 'string' && parsed.title.trim()) || existingTitle || 'Untitled Note',
+    summary: typeof parsed.summary === 'string' ? parsed.summary : '',
+    tags: Array.isArray(parsed.tags) ? parsed.tags.map(String).slice(0, 5) : [],
+    highlights: normalizeHighlights(parsed.highlights),
+  };
+}

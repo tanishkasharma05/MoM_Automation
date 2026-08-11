@@ -4,13 +4,14 @@ import { useUserProfile, isAtLeast } from '@/lib/rbac';
 import BrandMark from '@/components/BrandMark';
 import {
   LayoutDashboard, Upload, Mic, Bot, ClipboardList,
-  Users, BarChart2, Settings, LogOut, X, TrendingUp, CalendarDays, ShieldCheck
+  Users, BarChart2, Settings, LogOut, X, TrendingUp, CalendarDays, ShieldCheck, StickyNote
 } from 'lucide-react';
 
 const menuItems = [
   { title: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { title: 'Upload Audio', href: '/upload', icon: Upload },
   { title: 'Live Recording', href: '/recording', icon: Mic },
+  { title: 'AI Notes', href: '/notes', icon: StickyNote },
   { title: 'Meetings', href: '/meetings', icon: ClipboardList },
   { title: 'AI Processing', href: '/processing', icon: Bot },
   { title: 'Calendar', href: '/calendar', icon: CalendarDays },

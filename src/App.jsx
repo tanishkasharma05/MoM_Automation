@@ -13,6 +13,7 @@ import Upload from './pages/Upload';
 import Meetings from './pages/Meetings';
 import MeetingDetail from './pages/MeetingDetail';
 import Recording from './pages/Recording';
+import Notes from './pages/Notes';
 import Processing from './pages/Processing';
 import Reports from './pages/Reports';
 import Team from './pages/Team';
@@ -44,6 +45,7 @@ const AuthenticatedApp = () => {
         <Route path="/meetings" element={<SupabaseProtectedRoute><Meetings /></SupabaseProtectedRoute>} />
         <Route path="/meetings/:id" element={<SupabaseProtectedRoute><MeetingDetail /></SupabaseProtectedRoute>} />
         <Route path="/recording" element={<SupabaseProtectedRoute><Recording /></SupabaseProtectedRoute>} />
+        <Route path="/notes" element={<SupabaseProtectedRoute><Notes /></SupabaseProtectedRoute>} />
         <Route path="/processing" element={<SupabaseProtectedRoute><Processing /></SupabaseProtectedRoute>} />
         <Route path="/reports" element={<SupabaseProtectedRoute><Reports /></SupabaseProtectedRoute>} />
         <Route path="/analytics" element={<SupabaseProtectedRoute><Analytics /></SupabaseProtectedRoute>} />
